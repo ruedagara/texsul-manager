@@ -1,7 +1,7 @@
 {
   "main.css": "/texsul-manager/static/css/main.edbe0c0d.chunk.css",
-  "main.js": "/texsul-manager/static/js/main.3f8acb33.chunk.js",
-  "main.js.map": "/texsul-manager/static/js/main.3f8acb33.chunk.js.map",
+  "main.js": "/texsul-manager/static/js/main.a774560e.chunk.js",
+  "main.js.map": "/texsul-manager/static/js/main.a774560e.chunk.js.map",
   "static/css/1.3f008d51.chunk.css": "/texsul-manager/static/css/1.3f008d51.chunk.css",
   "static/js/1.1f34af59.chunk.js": "/texsul-manager/static/js/1.1f34af59.chunk.js",
   "static/js/1.1f34af59.chunk.js.map": "/texsul-manager/static/js/1.1f34af59.chunk.js.map",
@@ -19,9 +19,9 @@
   "static/media/9.jpeg": "/texsul-manager/static/media/9.565ad4a3.jpeg",
   "static/media/10.jpeg": "/texsul-manager/static/media/10.fe349e85.jpeg",
   "static/media/shards-dashboards-logo.svg": "/texsul-manager/static/media/shards-dashboards-logo.60a85991.svg",
-  "static/css/main.edbe0c0d.chunk.css.map": "/texsul-manager/static/css/main.edbe0c0d.chunk.css.map",
   "static/css/1.3f008d51.chunk.css.map": "/texsul-manager/static/css/1.3f008d51.chunk.css.map",
+  "static/css/main.edbe0c0d.chunk.css.map": "/texsul-manager/static/css/main.edbe0c0d.chunk.css.map",
   "index.html": "/texsul-manager/index.html",
-  "precache-manifest.d16a396aca9226ac389997cb585c7f4e.js": "/texsul-manager/precache-manifest.d16a396aca9226ac389997cb585c7f4e.js",
+  "precache-manifest.2652601cc794dc8b165dc7b2c2a77a15.js": "/texsul-manager/precache-manifest.2652601cc794dc8b165dc7b2c2a77a15.js",
   "service-worker.js": "/texsul-manager/service-worker.js"
 }

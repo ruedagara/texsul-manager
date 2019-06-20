@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/texsul-manager/precache-manifest.d16a396aca9226ac389997cb585c7f4e.js"
+  "/texsul-manager/precache-manifest.2652601cc794dc8b165dc7b2c2a77a15.js"
 );
 
 workbox.clientsClaim();

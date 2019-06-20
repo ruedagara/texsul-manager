@@ -4,7 +4,7 @@ self.__precacheManifest = [
     "url": "/texsul-manager/static/media/3.41bf3241.jpeg"
   },
   {
-    "revision": "3f8acb33d997ecfbbdbc",
+    "revision": "a774560e2476ef6c754f",
     "url": "/texsul-manager/static/css/main.edbe0c0d.chunk.css"
   },
   {
@@ -36,8 +36,8 @@ self.__precacheManifest = [
     "url": "/texsul-manager/static/media/2.780ccb41.jpeg"
   },
   {
-    "revision": "3f8acb33d997ecfbbdbc",
-    "url": "/texsul-manager/static/js/main.3f8acb33.chunk.js"
+    "revision": "a774560e2476ef6c754f",
+    "url": "/texsul-manager/static/js/main.a774560e.chunk.js"
   },
   {
     "revision": "026cb7af3133d721efff2a0134f7e16f",
@@ -68,7 +68,7 @@ self.__precacheManifest = [
     "url": "/texsul-manager/static/css/1.3f008d51.chunk.css"
   },
   {
-    "revision": "53616f372895130ccd4d30225b51dc79",
+    "revision": "d4755701d90064efba329ed05e59d858",
     "url": "/texsul-manager/index.html"
   }
 ];
