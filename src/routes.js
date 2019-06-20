@@ -15,7 +15,7 @@ import BlogPosts from "./views/BlogPosts";
 
 export default [
   {
-    path: "/",
+    path: "texsul-manager/",
     exact: true,
     layout: DefaultLayout,
     component: () => <Redirect to="/texsul-dashboard" />
