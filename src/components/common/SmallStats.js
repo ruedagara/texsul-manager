@@ -7,10 +7,17 @@ import { Card, CardBody } from "shards-react";
 import Chart from "../../utils/chart";
 
 class SmallStats extends React.Component {
+  state = {
+    dataChange: false
+  }
   constructor(props) {
     super(props);
 
     this.canvasRef = React.createRef();
+  }
+
+  changeData = (boolean) => {
+    this.setState({dataChange: !this.setState.dataChange})
   }
 
   componentDidMount() {

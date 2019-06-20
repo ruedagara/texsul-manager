@@ -27,6 +27,7 @@ class RangeDatePicker extends React.Component {
       ...this.state,
       ...{ startDate: new Date(value) }
     });
+    this.props.onStartDateChange(value)
   }
 
   handleEndDateChange(value) {
@@ -34,6 +35,7 @@ class RangeDatePicker extends React.Component {
       ...this.state,
       ...{ endDate: new Date(value) }
     });
+    this.props.onEndDateChange(value)
   }
 
   render() {
@@ -46,7 +48,7 @@ class RangeDatePicker extends React.Component {
           size="sm"
           selected={this.state.startDate}
           onChange={this.handleStartDateChange}
-          placeholderText="Start Date"
+          placeholderText="Fecha Inicial"
           dropdownMode="select"
           className="text-center"
         />
@@ -54,7 +56,7 @@ class RangeDatePicker extends React.Component {
           size="sm"
           selected={this.state.endDate}
           onChange={this.handleEndDateChange}
-          placeholderText="End Date"
+          placeholderText="Fecha Final"
           dropdownMode="select"
           className="text-center"
         />
