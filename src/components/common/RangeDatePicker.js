@@ -6,21 +6,32 @@ import {
   InputGroupAddon,
   InputGroupText
 } from "shards-react";
-
 import "../../assets/range-date-picker.css";
 
 class RangeDatePicker extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
-      startDate: undefined,
-      endDate: undefined
+      startDate: this.setUpDates().startDate,
+      endDate: this.setUpDates().endDate
     };
 
     this.handleStartDateChange = this.handleStartDateChange.bind(this);
     this.handleEndDateChange = this.handleEndDateChange.bind(this);
   }
+
+  setUpDates = () => {
+    const endDate = new Date()
+    let month = endDate.getMonth()
+    const year = endDate.getFullYear()
+    const startDate = new Date(year,month,1)
+    return {startDate, endDate}
+  }
+
+  componentDidMount = () => {
+    this.setUpDates()
+  }
+  
 
   handleStartDateChange(value) {
     this.setState({
@@ -59,6 +70,7 @@ class RangeDatePicker extends React.Component {
           placeholderText="Fecha Final"
           dropdownMode="select"
           className="text-center"
+       
         />
         <InputGroupAddon type="append">
           <InputGroupText>

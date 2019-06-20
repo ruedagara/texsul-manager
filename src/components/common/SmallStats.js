@@ -17,8 +17,8 @@ class SmallStats extends React.Component {
 
 
   componentDidUpdate = () => {
-    console.log(this.props.chartData[0].data)
-    this.chart.data.datasets[0].data = this.props.chartData[0].data
+    //CHARTS UPDATE
+    this.chart.data.datasets = this.props.chartData
     this.chart.update()
   };
 

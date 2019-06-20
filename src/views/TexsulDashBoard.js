@@ -18,74 +18,65 @@ class TexsulDashBoard extends React.Component {
     finalDateChange: false,
     startDate: undefined,
     finalDate: undefined,
-    dataChange: false,
+    dataChange: false
   };
 
   componentDidMount() {
     //Llamar al API
     this.setState({
-      smallStats: data.smallStats,
+      smallStats: data.smallStats
     });
     console.log("Component Did Mount");
-    
   }
 
-  
-  handleStartDateChange = async (e) => {
+  handleStartDateChange = async e => {
     console.log("Cambio Fecha Inicio");
     console.log(e);
     await this.setState({
       startDateChange: true,
       startDate: e
     });
-    this.handleChangeData()
-  }
+    this.handleChangeData();
+  };
 
-  handleEndDateChange = async (e) => {
+  handleEndDateChange = async e => {
     console.log("Cambio Fecha Final");
     await this.setState({
       finalDateChange: true,
       finalDate: e
     });
-    this.handleChangeData()
-  }
+    this.handleChangeData();
+  };
 
   handleChangeData = () => {
-    if(this.state.startDateChange  && this.state.finalDateChange ) {
-      console.log("Renderizar API de nuevo")
-      this.setState({smallStats: data2.smallStats, dataChange: true})
+    if (this.state.startDateChange && this.state.finalDateChange) {
+      console.log("Renderizar API de nuevo");
+      this.setState({ smallStats: data2.smallStats, dataChange: true });
     }
-  }
+  };
 
-  handleCharts = (e) => {
+  handleCharts = e => {
     console.log(e);
-    
-  }
+  };
 
   render() {
     return (
       <Container fluid className="main-content-container px-4">
         {/* Page Header */}
-        <Row noGutters className="page-header py-4">
-          <div
-            style={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              width: "100%"
-            }}
-          >
-            <div />
-            <div>
+        <Container fluid>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <p style={{margin:'10px', padding: 0, paddingTop: '5px', fontSize: '1.5em'}}>Dashboard</p>
+          </div>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <div style={{margin: '10px', paddingBottom: '15px'}}>
               <RangeDatePicker
                 onStartDateChange={this.handleStartDateChange}
                 onEndDateChange={this.handleEndDateChange}
               />
             </div>
           </div>
-        </Row>
-
-        {/* Small Stats Blocks */}
+        </Container>
+        {/* SmallStats */}
         <Row>
           {this.state.smallStats.map((stats, idx) => (
             <Col className="col-lg mb-4" key={idx} {...stats.attrs}>
