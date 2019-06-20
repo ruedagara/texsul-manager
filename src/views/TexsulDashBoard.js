@@ -17,14 +17,17 @@ class TexsulDashBoard extends React.Component {
     startDateChange: false,
     finalDateChange: false,
     startDate: undefined,
-    finalDate: undefined
+    finalDate: undefined,
+    dataChange: false,
   };
 
   componentDidMount() {
     //Llamar al API
     this.setState({
-      smallStats: data.smallStats
+      smallStats: data.smallStats,
     });
+    console.log("Component Did Mount");
+    
   }
 
   
@@ -50,8 +53,13 @@ class TexsulDashBoard extends React.Component {
   handleChangeData = () => {
     if(this.state.startDateChange  && this.state.finalDateChange ) {
       console.log("Renderizar API de nuevo")
-      this.setState({smallStats: data2.smallStats})
+      this.setState({smallStats: data2.smallStats, dataChange: true})
     }
+  }
+
+  handleCharts = (e) => {
+    console.log(e);
+    
   }
 
   render() {
@@ -83,7 +91,6 @@ class TexsulDashBoard extends React.Component {
             <Col className="col-lg mb-4" key={idx} {...stats.attrs}>
               <SmallStats
                 id={`small-stats-${idx}`}
-                variation="1"
                 chartData={stats.datasets}
                 chartLabels={stats.chartLabels}
                 label={stats.label}
@@ -91,6 +98,7 @@ class TexsulDashBoard extends React.Component {
                 percentage={stats.percentage}
                 increase={stats.increase}
                 decrease={stats.decrease}
+                variation={"1"}
               />
             </Col>
           ))}
@@ -131,7 +139,7 @@ TexsulDashBoard.propTypes = {
   /**
    * The small stats dataset.
    */
-  smallStats: PropTypes.array
+  //smallStats: PropTypes.array
 };
 
 const data = {
@@ -150,7 +158,7 @@ const data = {
           borderWidth: 1.5,
           backgroundColor: "rgba(0, 184, 216, 0.1)",
           borderColor: "rgb(0, 184, 216)",
-          data: [500, 600, 200, 300, 600, 250, 100, 150, 800, 100, 200]
+          data: [500, 600, 200, 300, 600, 250, 100, 150, 800, 100, 300]
         }
       ]
     },
@@ -269,7 +277,7 @@ const data2 = {
           borderWidth: 1.5,
           backgroundColor: "rgba(0, 184, 216, 0.1)",
           borderColor: "rgb(0, 184, 216)",
-          data: [200, 600, 200, 300, 600, 250, 100, 150, 800, 100, 1000]
+          data: [0, 0, 200, 300, 0, 250, 100, 150, 800, 100, 1000]
         }
       ]
     },

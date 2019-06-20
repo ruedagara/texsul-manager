@@ -8,19 +8,29 @@ import Chart from "../../utils/chart";
 
 class SmallStats extends React.Component {
   state = {
-    dataChange: false
-  }
+    dataChange: this.props.dataChange
+  };
   constructor(props) {
     super(props);
-
     this.canvasRef = React.createRef();
   }
 
-  changeData = (boolean) => {
-    this.setState({dataChange: !this.setState.dataChange})
-  }
 
+  componentDidUpdate = () => {
+    console.log(this.props.chartData[0].data)
+    this.chart.data.datasets[0].data = this.props.chartData[0].data
+    this.chart.update()
+  };
+
+  handleChange = e => {
+    //this.chart.update({ duration: 800, easing: "easeOutBounce" });
+    console.log(e);
+    console.log("CAMBIO");
+  };
+
+  chart = null;
   componentDidMount() {
+    document.addEventListener('onclick', this.handleChange)
     const chartOptions = {
       ...{
         maintainAspectRatio: true,
@@ -83,7 +93,8 @@ class SmallStats extends React.Component {
       ...this.props.chartConfig
     };
 
-    new Chart(this.canvasRef.current, chartConfig);
+    this.chart = new Chart(this.canvasRef.current, chartConfig);
+    this.chart.update();
   }
 
   render() {
@@ -137,8 +148,12 @@ class SmallStats extends React.Component {
         <CardBody className={cardBodyClasses}>
           <div className={innerWrapperClasses}>
             <div className={dataFieldClasses}>
-              <span className={labelClasses} style={{fontSize: "0.8em"}}>{label}</span>
-              <h6 className={valueClasses} style={{fontSize: "1.5em"}}>{value}</h6>
+              <span className={labelClasses} style={{ fontSize: "0.8em" }}>
+                {label}
+              </span>
+              <h6 className={valueClasses} style={{ fontSize: "1.5em" }}>
+                {value}
+              </h6>
             </div>
             <div className={innerDataFieldClasses}>
               <span className={percentageClasses}>{percentage}</span>
