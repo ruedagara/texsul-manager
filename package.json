@@ -2,7 +2,7 @@
   "name": "shards-dashboard-lite-react",
   "version": "1.0.0",
   "private": true,
-  "homepage": "http://ruedagara.github.io/texsul-manager",
+  "homepage": "https://ruedagara.github.io/texsul-manager/",
   "dependencies": {
     "camelize": "^1.0.0",
     "chart.js": "^2.7.3",
