@@ -8,7 +8,8 @@ import Chart from "../../utils/chart";
 
 class SmallStats extends React.Component {
   state = {
-    dataChange: this.props.dataChange
+    dataChange: this.props.dataChange,
+    type: this.props.label
   };
   constructor(props) {
     super(props);
@@ -22,6 +23,10 @@ class SmallStats extends React.Component {
     this.chart.update()
   };
 
+  handleClick = () => {
+    this.props.onClick(this.state.type)
+  }
+
   handleChange = e => {
     //this.chart.update({ duration: 800, easing: "easeOutBounce" });
     console.log(e);
@@ -30,7 +35,8 @@ class SmallStats extends React.Component {
 
   chart = null;
   componentDidMount() {
-    document.addEventListener('onclick', this.handleChange)
+    console.log(this.state.type);
+    
     const chartOptions = {
       ...{
         maintainAspectRatio: true,
@@ -144,7 +150,7 @@ class SmallStats extends React.Component {
     const canvasHeight = variation === "1" ? 120 : 60;
 
     return (
-      <Card small className={cardClasses}>
+      <Card small className={cardClasses} onClick={this.handleClick}>
         <CardBody className={cardBodyClasses}>
           <div className={innerWrapperClasses}>
             <div className={dataFieldClasses}>

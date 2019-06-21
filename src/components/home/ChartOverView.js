@@ -5,7 +5,7 @@ import { Row, Col, Card, CardHeader, CardBody, Button } from "shards-react";
 import RangeDatePicker from "../common/RangeDatePicker";
 import Chart from "../../utils/chart";
 
-class UsersOverview extends React.Component {
+class ChartOverView extends React.Component {
   constructor(props) {
     super(props);
 
@@ -93,7 +93,7 @@ class UsersOverview extends React.Component {
           <h6 className="m-0">{title}</h6>
         </CardHeader>
         <CardBody className="pt-0">
-          <Row className="border-bottom py-2 bg-light">
+          {/* <Row className="border-bottom py-2 bg-light">
             <Col sm="6" className="d-flex mb-2 mb-sm-0">
               <RangeDatePicker />
             </Col>
@@ -105,7 +105,7 @@ class UsersOverview extends React.Component {
                 View Full Report &rarr;
               </Button>
             </Col>
-          </Row>
+          </Row> */}
           <canvas
             height="120"
             ref={this.canvasRef}
@@ -117,7 +117,7 @@ class UsersOverview extends React.Component {
   }
 }
 
-UsersOverview.propTypes = {
+ChartOverView.propTypes = {
   /**
    * The component's title.
    */
@@ -132,13 +132,13 @@ UsersOverview.propTypes = {
   chartOptions: PropTypes.object
 };
 
-UsersOverview.defaultProps = {
+ChartOverView.defaultProps = {
   title: "Users Overview",
   chartData: {
     labels: Array.from(new Array(30), (_, i) => (i === 0 ? 1 : i)),
     datasets: [
       {
-        label: "Current Month",
+        label: "Ingresos por Ventas",
         fill: "start",
         data: [
           500,
@@ -181,7 +181,7 @@ UsersOverview.defaultProps = {
         pointHoverRadius: 3
       },
       {
-        label: "Past Month",
+        label: "Gastos",
         fill: "start",
         data: [
           380,
@@ -229,4 +229,4 @@ UsersOverview.defaultProps = {
   }
 };
 
-export default UsersOverview;
+export default ChartOverView;

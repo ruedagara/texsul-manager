@@ -12,7 +12,7 @@ import {
 
 import Chart from "../../utils/chart";
 
-class UsersByDevice extends React.Component {
+class DataByZone extends React.Component {
   constructor(props) {
     super(props);
 
@@ -55,12 +55,12 @@ class UsersByDevice extends React.Component {
         </CardHeader>
         <CardBody className="d-flex py-0">
           <canvas
-            height="220"
+            height="220"  //TODO: - VARIAR DEPENDIENDO DEL TAMAÑO DE LA PANTALLA
             ref={this.canvasRef}
             className="blog-users-by-device m-auto"
           />
         </CardBody>
-        <CardFooter className="border-top">
+        {/* <CardFooter className="border-top">
           <Row>
             <Col>
               <FormSelect
@@ -76,17 +76,17 @@ class UsersByDevice extends React.Component {
               </FormSelect>
             </Col>
             <Col className="text-right view-report">
-              {/* eslint-disable-next-line */}
+              
               <a href="#">View full report &rarr;</a>
             </Col>
           </Row>
-        </CardFooter>
+        </CardFooter> */}
       </Card>
     );
   }
 }
 
-UsersByDevice.propTypes = {
+DataByZone.propTypes = {
   /**
    * The component's title.
    */
@@ -105,13 +105,13 @@ UsersByDevice.propTypes = {
   chartData: PropTypes.object
 };
 
-UsersByDevice.defaultProps = {
-  title: "Users by device",
+DataByZone.defaultProps = {
+  title: "Ventas por Zona",
   chartData: {
     datasets: [
       {
         hoverBorderColor: "#ffffff",
-        data: [68.3, 24.2, 7.5],
+        data: [68.3, 24.2, 7.5, 23.8, 34.95,10],
         backgroundColor: [
           "rgba(0,123,255,0.9)",
           "rgba(0,123,255,0.5)",
@@ -119,8 +119,8 @@ UsersByDevice.defaultProps = {
         ]
       }
     ],
-    labels: ["Desktop", "Tablet", "Mobile"]
+    labels: ["Cali", "Medellín", "Bogotá", "Barranquilla", "Ecuador", "Costa Rica"]
   }
 };
 
-export default UsersByDevice;
+export default DataByZone;

@@ -1,8 +1,6 @@
 import Chart from 'chart.js';
 
 Chart.defaults.LineWithLine = Chart.defaults.line;
-console.log("HOLAA");
-
 Chart.controllers.LineWithLine = Chart.controllers.line.extend({
   draw(ease) {
     Chart.controllers.line.prototype.draw.call(this, ease);  

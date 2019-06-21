@@ -3,7 +3,9 @@ import { Container, Row, Col, Card, CardHeader, CardBody } from "shards-react";
 
 import PageTitle from "../components/common/PageTitle";
 
-const Tables = () => (
+const Tables = (props) => { 
+  console.log(props.location.state);
+  return (
   <Container fluid className="main-content-container px-4">
     {/* Page Header */}
     <Row noGutters className="page-header py-4">
@@ -152,6 +154,6 @@ const Tables = () => (
       </Col>
     </Row>
   </Container>
-);
+)}
 
 export default Tables;
