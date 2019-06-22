@@ -99,7 +99,7 @@ exports.newTransaction = functions.firestore
   });
 
 //Obtener sumas de los valores para smallStats
-const getResume = transactions => {
+const getResumeValues = transactions => {
   let ventas = 0;
   let gastos = 0;
   let resultados = 0;
@@ -134,12 +134,31 @@ const getResume = transactions => {
 };
 
 const getSmallStatsData = (resumeValues, dayValues) => {
-    const nullDayArray = []
-
-}
+  const nullDayArray = [];
+};
 
 //TODO: Obtener suma de datos agrupados por días
-const getValuesByDay = transactions => {};
+const getValuesByInterval = (transactions, interval) => {
+  //Organizar transacciones por fecha, de menor a mayo
+  const sortedTransactions = transactions.sort(function(x, y) {
+    return x.fecha - y.fecha;
+  });
+  //Identificar primer dia de la consulta y ultimo día de la consulta
+  const firstDate = sortedTransactions[0].fecha;
+  const lastDate = sortedTransactions[sortedTransactions.length - 1].fecha;
+  //Acumular datos por intervalos si:
+  const groupedTransactionValues = {};
+  sortedTransactions.reduce((value1, value2, index, vector) => {
+    const date1 = new Date(value1.fecha);
+    const date2 = new Date(value2.fecha);
+    if (date1.getDay === date2.getDay) {
+      const sum = value1.valor + value2.valor;
+      //TODO: sumar valor dos solo si valor 1 ya esta sumado
+      groupedTransactionValues[date1.getDay] += sum;
+      return value1.valor + value2.valor;
+    }
+  });
+};
 
 exports.getCustomSmallStats = functions.https.onRequest(async (req, res) => {
   //Obtener la fecha inicial y la fecha final de la consulta
@@ -152,19 +171,19 @@ exports.getCustomSmallStats = functions.https.onRequest(async (req, res) => {
     .where("fecha", ">", startDate)
     .where("fecha", "<", endDate)
     .get();
-  if(!snap) {
-      res.status(404).send({error: "No se ha encontrado la base de datos"})
+  if (!snap) {
+    res.status(404).send({ error: "No se ha encontrado la base de datos" });
   }
   snap.forEach(doc => {
     const transaction = doc.data();
+    console.log("Transaction Data", transaction);
     transaction.id = doc.id;
     transactions.push(transaction);
   });
 
   //Obtener valores totales para smallStats
-  const resumeValues = getResume(
-    transactions
-  );
+  const resumeValues = getResumeValues(transactions);
+  console.log("resumeValues", resumeValues);
   //Ventas: Sumar todos los valores de transacciones de venta
   //Gastos: Sumar todos los valores de transacciones de gastos
   //Resultados: Realizar resta entre Ventas y Gastos
@@ -173,10 +192,14 @@ exports.getCustomSmallStats = functions.https.onRequest(async (req, res) => {
   //Saldo: Realizar resta entre Ingresos de Efectivo y Egresos de Efectivo
 
   //Realizar sumas por días
-  const dayValues = getValuesByDay(transactions);
+  const interval = "days";
+  const intervalValues = getValuesByInterval(transactions, interval);
+  console.log("dayValues", dayValues);
 
   //Organizar el JSON teniendo en cuenta el cambio en el datasets y numero de días
-  const finalData =  getSmallStatsData(resumeValues,dayValues)
+  const finalData = getSmallStatsData(resumeValues, intervalValues);
+  console.log("finalData", finalData);
+
   //Enviar respuesta
-  res.status(200).send(finalData)
+  res.status(200).send(finalData);
 });
