@@ -10,9 +10,11 @@ import "./api/config";
 import firebase from "firebase";
 import { getData } from "./false-api/api";
 
+
 let creatSmallStats = true;
 const db = firebase.firestore();
 var docRef = db.collection("transacciones");
+
 
 // const createSmallStats = () => {
 //   const smallStats = getData()
@@ -28,24 +30,24 @@ var docRef = db.collection("transacciones");
 const accounts = [
   {
     tipo: "activo",
-    saldo: 500000000,
-    valor: 500000000
+    saldo: 200000000,
+    valor: 200000000
   },
-  {
-    tipo: "pasivo",
-    saldo: 300000000,
-    valor: 300000000
-  },
-  {
-    tipo: "gasto",
-    saldo: 100000000,
-    valor: 100000000
-  },
-  {
-    tipo: "ventas",
-    saldo: 0,
-    valor: 0
-  }
+  // {
+  //   tipo: "pasivo",
+  //   saldo: 300000000,
+  //   valor: 300000000
+  // },
+  // {
+  //   tipo: "gasto",
+  //   saldo: 100000000,
+  //   valor: 100000000
+  // },
+  // {
+  //   tipo: "ventas",
+  //   saldo: 200000000,
+  //   valor: 200000000
+  //}
 ];
 
 const createAccounts = () => {
@@ -56,7 +58,7 @@ const createAccounts = () => {
 
 const transaction  = {
   valor: 300000000,
-  tipo: 'pago-pasivo',
+  tipo: 'pasivo',
   'id-cuenta-1': 'HfJKpxyHsnA2WU3b3b06',
   'id-cuenta-2': 'VjyP7FyN83fo9FMzEgx4'
 }
@@ -64,7 +66,7 @@ const createTransaction = () => {
     docRef.add(transaction);
 };
 
-createTransaction();
+// createTransaction();
 
 
 

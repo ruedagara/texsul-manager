@@ -11,21 +11,22 @@ import NewDraft from "../components/home/NewDraft";
 import Discussions from "../components/home/Discussions";
 import TopReferrals from "../components/common/TopReferrals";
 import RangeDatePicker from "../components/common/RangeDatePicker";
-import {connect} from 'react-redux';
-import * as smallStatsActions from '../actions/smallStatsActions';
+import { connect } from "react-redux";
+import * as smallStatsActions from "../actions/smallStatsActions";
+import statsConfiguration from "../utils/stats-config";
 class TexsulDashBoard extends React.Component {
   state = {
-    smallStats: [],
     startDateChange: false,
     finalDateChange: false,
     startDate: undefined,
     finalDate: undefined,
-    dataChange: false
+    dataChange: false,
+    smallStats: statsConfiguration
   };
 
   componentDidMount() {
-    //Llamar al API 
-    this.props.getSmallStats()
+    //Llamar al API
+    //this.props.getSmallStats();
     console.log("Component Did Mount");
   }
 
@@ -48,10 +49,38 @@ class TexsulDashBoard extends React.Component {
     this.handleChangeData();
   };
 
-  handleChangeData = () => {
+  formatDate = date => {
+    const year = date.getFullYear();
+    let day = date.getDate();
+    let month = date.getMonth();
+
+    if (day < 10) {
+      day = `0${day}`;
+    }
+    if (month < 10) {
+      month = `0${month}`;
+    }
+    return `${year}/${month}/${day}`;
+  };
+
+  handleChangeData = async () => {
     if (this.state.startDateChange && this.state.finalDateChange) {
       console.log("Renderizar API de nuevo");
-      this.setState({ smallStats: data2.smallStats, dataChange: true });
+      //this.setState({ smallStats: data2.smallStats, dataChange: true });
+      const startDate = this.state.startDate;
+      const finalDate = this.state.finalDate;
+      try {
+        const startDateString = this.formatDate(startDate);
+        const finalDateString = this.formatDate(finalDate);
+        const dates = {
+          startDate: startDateString,
+          finalDate: finalDateString
+        };
+        const smallStatsQuery = await this.props.getSmallStatsByInterval(dates);
+        console.log("SMALLSTATS", smallStatsQuery);
+      } catch (error) {
+        console.log("error", error);
+      }
     }
   };
 
@@ -64,9 +93,54 @@ class TexsulDashBoard extends React.Component {
     return e;
   };
 
+  renderSmallStats = () => {
+    //Se obtienen los datos del store
+    const data = this.props.data
+    const resumeValues = data.resumeValues;
+    const chartValues = data.chartValues;
+
+    console.log("DATOS", data);
+    //A  cada SmallStat se le asigna los datos correspondientes
+    const smallStats = this.state.smallStats.map((stats, idx) => {
+      const chartLabels = chartValues.dates;
+      const chartNumbers = chartValues.values.map((value) => {
+        return value[stats.type]
+      })
+      console.log("CHART NUMBERS", chartNumbers);
+      const dataSets = stats.datasets
+      dataSets[0].data = chartNumbers
+      return (
+        <Col className="col-lg mb-4" key={idx} {...stats.attrs}>
+          <Link
+            to={{
+              pathname: "tables",
+              state: {
+                holi: "holi"
+              }
+            }}
+          >
+            <SmallStats
+              id={`small-stats-${idx}`}
+              chartData={dataSets/*stats.datasets*/}
+              chartLabels={chartLabels/*stats.chartLabels*/}
+              label={stats.label}
+              value={/*stats.value*/ resumeValues[stats.type]}
+              percentage={stats.percentage}
+              increase={stats.increase}
+              decrease={stats.decrease}
+              variation={"1"}
+              onClick={this.handleClick}
+            />
+          </Link>
+        </Col>
+      );
+    });
+    return smallStats;
+  };
+
   render() {
-    console.log(this.props);
-    
+    console.log("PROPs", this.props);
+
     return (
       <Container fluid className="main-content-container px-4">
         {/* Page Header */}
@@ -94,31 +168,9 @@ class TexsulDashBoard extends React.Component {
         </Container>
         {/* SmallStats */}
         <Row>
-          {this.props.smallStats.map((stats, idx) => (
-            <Col className="col-lg mb-4" key={idx} {...stats.attrs}>
-              <Link
-                to={{
-                  pathname: "tables",
-                  state: {
-                    holi: "holi"
-                  }
-                }}
-              >
-                <SmallStats
-                  id={`small-stats-${idx}`}
-                  chartData={stats.datasets}
-                  chartLabels={stats.chartLabels}
-                  label={stats.label}
-                  value={stats.value}
-                  percentage={stats.percentage}
-                  increase={stats.increase}
-                  decrease={stats.decrease}
-                  variation={"1"}
-                  onClick={this.handleClick}
-                />
-              </Link>
-            </Col>
-          ))}
+          {
+            this.renderSmallStats()
+          }
         </Row>
 
         <Row>
@@ -130,6 +182,11 @@ class TexsulDashBoard extends React.Component {
           {/* Users by Device */}
           <Col lg="4" md="12" sm="12" className="mb-4">
             <DataByZone />
+          </Col>
+
+          {/* Chart Overview */}
+          <Col lg="12" md="12" sm="12" className="mb-4">
+            <ChartOverView title={"Ingresos vs Egresos"} />
           </Col>
 
           {/* New Draft */}
@@ -152,135 +209,11 @@ class TexsulDashBoard extends React.Component {
   }
 }
 
-TexsulDashBoard.propTypes = {
-  /**
-   * The small stats dataset.
-   */
-  //smallStats: PropTypes.array
-};
-
-
-const data2 = {
-  smallStats: [
-    {
-      label: "Ventas",
-      value: "$5.900M",
-      percentage: "10.7%",
-      increase: false,
-      dicrease: true,
-      chartLabels: [null, null, null, null, null, null, null],
-      attrs: { md: "6", sm: "6", lg: "4" },
-      datasets: [
-        {
-          label: "Today",
-          fill: "start",
-          borderWidth: 1.5,
-          backgroundColor: "rgba(0, 184, 216, 0.1)",
-          borderColor: "rgb(0, 184, 216)",
-          data: [0, 0, 200, 300, 0, 250, 100, 150, 800, 100, 1000]
-        }
-      ]
-    },
-    {
-      label: "Gastos",
-      value: "$2.648M",
-      percentage: "-13.5",
-      increase: false,
-      dicrease: true,
-      chartLabels: [null, null, null, null, null, null, null],
-      attrs: { md: "6", sm: "6", lg: "4" },
-      datasets: [
-        {
-          label: "Today",
-          fill: "start",
-          borderWidth: 1.5,
-          backgroundColor: "rgba(255,65,105,0.1)",
-          borderColor: "rgb(255,65,105)",
-          data: [3, 2, 3, 7, 3, 4, 1]
-        }
-      ]
-    },
-    {
-      label: "Resultados",
-      value: "$152M",
-      percentage: "2.4%",
-      increase: false,
-      decrease: true,
-      chartLabels: [null, null, null, null, null, null, null],
-      attrs: { md: "12", sm: "12", lg: "4" },
-      datasets: [
-        {
-          label: "Today",
-          fill: "start",
-          borderWidth: 1.5,
-          backgroundColor: "rgb(0,123,255,0.1)",
-          borderColor: "rgb(0,123,255)",
-          data: [3, 2, 3, 2, 4, 5, 4]
-        }
-      ]
-    },
-    {
-      label: "Ingresos de Efectivo",
-      value: "$8.147M",
-      percentage: "3.8%",
-      increase: true,
-      decrease: false,
-      chartLabels: [null, null, null, null, null, null, null],
-      attrs: { md: "6", sm: "6", lg: "4" },
-      datasets: [
-        {
-          label: "Today",
-          fill: "start",
-          borderWidth: 1.5,
-          backgroundColor: "rgba(255,180,0,0.1)",
-          borderColor: "rgb(255,180,0)",
-          data: [2, 3, 3, 3, 4, 3, 3]
-        }
-      ]
-    },
-    {
-      label: "Egresos de Efectivo",
-      value: "$2.900M",
-      percentage: "2.71%",
-      increase: false,
-      decrease: true,
-      chartLabels: [null, null, null, null, null, null, null],
-      attrs: { md: "6", sm: "6", lg: "4" },
-      datasets: [
-        {
-          label: "Today",
-          fill: "start",
-          borderWidth: 1.5,
-          backgroundColor: "rgba(255,65,105,0.1)",
-          borderColor: "rgb(255,65,105)",
-          data: [1, 7, 1, 3, 1, 4, 8]
-        }
-      ]
-    },
-    {
-      label: "Saldo de Efectivo",
-      value: "$5.247M",
-      percentage: "2.4%",
-      increase: false,
-      decrease: true,
-      chartLabels: [null, null, null, null, null, null, null],
-      attrs: { md: "12", sm: "12", lg: "4" },
-      datasets: [
-        {
-          label: "Today",
-          fill: "start",
-          borderWidth: 1.5,
-          backgroundColor: "rgb(0,123,255,0.1)",
-          borderColor: "rgb(0,123,255)",
-          data: [500, 600, 200, 300, 600, 250, 100, 150, 800, 100, 200]
-        }
-      ]
-    }
-  ]
-};
-
-const mapStateToProps = (reducers) => {
+const mapStateToProps = reducers => {
   return reducers.smallStatsReducer;
-}
+};
 
-export default connect(mapStateToProps, smallStatsActions)(TexsulDashBoard);
+export default connect(
+  mapStateToProps,
+  smallStatsActions
+)(TexsulDashBoard);

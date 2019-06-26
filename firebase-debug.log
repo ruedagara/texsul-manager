@@ -1,0 +1,103 @@
+[debug] [2019-06-24T02:52:29.994Z] ----------------------------------------------------------------------
+[debug] [2019-06-24T02:52:29.998Z] Command:       /usr/local/bin/node /usr/local/bin/firebase serve
+[debug] [2019-06-24T02:52:29.999Z] CLI Version:   7.0.1
+[debug] [2019-06-24T02:52:29.999Z] Platform:      darwin
+[debug] [2019-06-24T02:52:29.999Z] Node Version:  v10.16.0
+[debug] [2019-06-24T02:52:30.000Z] Time:          Sun Jun 23 2019 21:52:30 GMT-0500 (Colombia Standard Time)
+[debug] [2019-06-24T02:52:30.000Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2019-06-24T02:52:30.016Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-06-24T02:52:30.017Z] > authorizing via signed-in user
+[debug] [2019-06-24T02:52:30.017Z] [iam] checking project texsul-792d2 for permissions ["firebase.projects.get"]
+[debug] [2019-06-24T02:52:30.019Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/texsul-792d2:testIamPermissions  
+
+[debug] [2019-06-24T02:52:33.025Z] <<< HTTP RESPONSE 200
+[debug] [2019-06-24T02:52:33.029Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/texsul-792d2  
+ 
+[debug] [2019-06-24T02:52:35.429Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/Users/gustavorueda/Documents/Desarrollos/Texsul/Texsul-Manager/Source Files'...
+[info] 
+[warn] ⚠  Your requested "node" version "8" doesn't match your global version "10"
+[debug] [2019-06-24T02:52:35.468Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/561867771372:getServerAppConfig  
+ 
+[debug] [2019-06-24T02:52:38.165Z] <<< HTTP RESPONSE 200
+[info] ✔  functions: Emulator started at http://localhost:5000
+[info] i  functions: Watching "/Users/gustavorueda/Documents/Desarrollos/Texsul/Texsul-Manager/Source Files/functions" for Cloud Functions...
+[debug] [2019-06-24T02:52:38.507Z] Functions runtime initialized.
+[debug] [2019-06-24T02:52:38.508Z] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"protect_env":true,"admin_stubs":true}
+[debug] [2019-06-24T02:52:38.629Z] firebase-admin has been stubbed.
+[info] Ignoring trigger "newTransaction" because the Cloud Firestore emulator is not running.
+[info] i  functions: HTTP trigger initialized at http://localhost:5000/texsul-792d2/us-central1/getCustomSmallStats
+[info] i  functions: HTTP trigger initialized at http://localhost:5000/texsul-792d2/us-central1/getDataForBigStats
+[debug] [2019-06-24T02:53:37.644Z] File /Users/gustavorueda/Documents/Desarrollos/Texsul/Texsul-Manager/Source Files/functions/index.js changed, reloading triggers
+[debug] [2019-06-24T02:53:39.246Z] Functions runtime initialized.
+[debug] [2019-06-24T02:53:39.247Z] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"protect_env":true,"admin_stubs":true}
+[debug] [2019-06-24T02:53:39.416Z] firebase-admin has been stubbed.
+[debug] [2019-06-24T02:54:30.177Z] Accepted request POST /texsul-792d2/us-central1/getCustomSmallStats --> getCustomSmallStats
+[debug] [2019-06-24T02:54:30.965Z] Functions runtime initialized.
+[info] i  functions: Beginning execution of "getCustomSmallStats"
+[debug] [2019-06-24T02:54:30.968Z] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"protect_env":true,"admin_stubs":true}
+[debug] [2019-06-24T02:54:31.154Z] firebase-admin has been stubbed.
+[debug] [2019-06-24T02:54:31.286Z] Trigger "getCustomSmallStats" has been found, beginning invocation!
+[debug] [2019-06-24T02:54:31.286Z] 
+[debug] [2019-06-24T02:54:31.286Z] Running getCustomSmallStats in mode HTTPS
+[debug] [2019-06-24T02:54:31.299Z] {"socketPath":"/var/folders/bj/9nfkqzxs0vn6ky9239z_z4b00000gn/T/firebase_emulator_invocation_10187.sock"}
+[debug] [2019-06-24T02:54:31.305Z] [functions] Runtime ready! Sending request! {"socketPath":"/var/folders/bj/9nfkqzxs0vn6ky9239z_z4b00000gn/T/firebase_emulator_invocation_10187.sock"}
+[debug] [2019-06-24T02:54:31.340Z] Ephemeral server used!
+[debug] [2019-06-24T02:54:31.341Z] BodystartDate=2018%2F06%2F01&finalDate=2018%2F06%2F22
+[info] >  [object Object]
+[info] >  2018/06/01
+[info] >  2018/06/22
+[info] >  resumeValues [object Object]
+[info] >  SORTED []
+[info] >  DayValueArray []
+[info] >  GROUPS {}
+[debug] [2019-06-24T02:54:35.225Z] Ephemeral server survived.
+[info] i  functions: Finished "getCustomSmallStats" in ~3s
+[debug] [2019-06-24T02:54:51.893Z] File /Users/gustavorueda/Documents/Desarrollos/Texsul/Texsul-Manager/Source Files/functions/index.js changed, reloading triggers
+[debug] [2019-06-24T02:54:53.373Z] Functions runtime initialized.
+[debug] [2019-06-24T02:54:53.375Z] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"protect_env":true,"admin_stubs":true}
+[debug] [2019-06-24T02:54:53.510Z] firebase-admin has been stubbed.
+[debug] [2019-06-24T02:54:56.328Z] Accepted request POST /texsul-792d2/us-central1/getCustomSmallStats --> getCustomSmallStats
+[debug] [2019-06-24T02:54:56.904Z] Functions runtime initialized.
+[info] i  functions: Beginning execution of "getCustomSmallStats"
+[debug] [2019-06-24T02:54:56.906Z] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"protect_env":true,"admin_stubs":true}
+[debug] [2019-06-24T02:54:56.992Z] firebase-admin has been stubbed.
+[debug] [2019-06-24T02:54:57.080Z] Trigger "getCustomSmallStats" has been found, beginning invocation!
+[debug] [2019-06-24T02:54:57.080Z] 
+[debug] [2019-06-24T02:54:57.080Z] Running getCustomSmallStats in mode HTTPS
+[debug] [2019-06-24T02:54:57.089Z] {"socketPath":"/var/folders/bj/9nfkqzxs0vn6ky9239z_z4b00000gn/T/firebase_emulator_invocation_10197.sock"}
+[debug] [2019-06-24T02:54:57.090Z] [functions] Runtime ready! Sending request! {"socketPath":"/var/folders/bj/9nfkqzxs0vn6ky9239z_z4b00000gn/T/firebase_emulator_invocation_10197.sock"}
+[debug] [2019-06-24T02:54:57.117Z] Ephemeral server used!
+[debug] [2019-06-24T02:54:57.118Z] BodystartDate=2018%2F06%2F01&finalDate=2018%2F06%2F22
+[info] >  {"startDate":"2018/06/01","finalDate":"2018/06/22"}
+[info] >  2018/06/01
+[info] >  2018/06/22
+[info] >  resumeValues [object Object]
+[info] >  SORTED []
+[info] >  DayValueArray []
+[info] >  GROUPS {}
+[debug] [2019-06-24T02:55:00.271Z] Ephemeral server survived.
+[info] i  functions: Finished "getCustomSmallStats" in ~3s
+[debug] [2019-06-24T03:20:25.079Z] Accepted request POST /texsul-792d2/us-central1/getCustomSmallStats --> getCustomSmallStats
+[debug] [2019-06-24T03:20:25.862Z] Functions runtime initialized.
+[info] i  functions: Beginning execution of "getCustomSmallStats"
+[debug] [2019-06-24T03:20:25.864Z] Disabled runtime features: {"functions_config_helper":true,"network_filtering":true,"timeout":true,"memory_limiting":true,"protect_env":true,"admin_stubs":true}
+[debug] [2019-06-24T03:20:25.992Z] firebase-admin has been stubbed.
+[debug] [2019-06-24T03:20:26.124Z] Trigger "getCustomSmallStats" has been found, beginning invocation!
+[debug] [2019-06-24T03:20:26.124Z] 
+[debug] [2019-06-24T03:20:26.124Z] Running getCustomSmallStats in mode HTTPS
+[debug] [2019-06-24T03:20:26.136Z] {"socketPath":"/var/folders/bj/9nfkqzxs0vn6ky9239z_z4b00000gn/T/firebase_emulator_invocation_10319.sock"}
+[debug] [2019-06-24T03:20:26.142Z] [functions] Runtime ready! Sending request! {"socketPath":"/var/folders/bj/9nfkqzxs0vn6ky9239z_z4b00000gn/T/firebase_emulator_invocation_10319.sock"}
+[debug] [2019-06-24T03:20:26.177Z] Ephemeral server used!
+[debug] [2019-06-24T03:20:26.178Z] BodystartDate=2018%2F06%2F01&finalDate=2018%2F06%2F22
+[info] >  {"startDate":"2018/06/01","finalDate":"2018/06/22"}
+[info] >  2018/06/01
+[info] >  2018/06/22
+[info] >  resumeValues [object Object]
+[info] >  SORTED []
+[info] >  DayValueArray []
+[info] >  GROUPS {}
+[debug] [2019-06-24T03:20:27.781Z] Ephemeral server survived.
+[info] i  functions: Finished "getCustomSmallStats" in ~1s

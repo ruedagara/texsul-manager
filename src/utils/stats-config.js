@@ -1,6 +1,7 @@
-const INITIAL_SMALL_STATS = [
+export default [
   {
     label: "Ventas",
+    type: 'ventas',
     value: "",
     percentage: "",
     increase: false,
@@ -20,6 +21,7 @@ const INITIAL_SMALL_STATS = [
   },
   {
     label: "Gastos",
+    type: 'gastos',
     value: "",
     percentage: "",
     increase: false,
@@ -39,6 +41,7 @@ const INITIAL_SMALL_STATS = [
   },
   {
     label: "Resultados",
+    type: 'resultados',
     value: "",
     percentage: "",
     increase: false,
@@ -58,6 +61,7 @@ const INITIAL_SMALL_STATS = [
   },
   {
     label: "Ingresos de Efectivo",
+    type: 'ingresos',
     value: "",
     percentage: "",
     increase: false,
@@ -77,6 +81,7 @@ const INITIAL_SMALL_STATS = [
   },
   {
     label: "Egresos de Efectivo",
+    type: 'egresos',
     value: "",
     percentage: "",
     increase: false,
@@ -96,6 +101,7 @@ const INITIAL_SMALL_STATS = [
   },
   {
     label: "Saldo de Efectivo",
+    type: 'saldo',
     value: "",
     percentage: "",
     increase: false,
@@ -113,33 +119,4 @@ const INITIAL_SMALL_STATS = [
       }
     ]
   }
-]
-
-const INITIAL_DATA = {
-  resumeValues: {},
-  chartValues: {
-    dates: [],
-    values: []
-  }
-}
-
-const INITIAL_STATE = {
-  data: INITIAL_DATA,
-  loading: false,
-  error: ''
-};
-
-export default (state = INITIAL_STATE, action) => {
-  switch (action.type) {
-    case "get_small_stats":
-      return { ...state, data: action.payload };
-    case 'get_small_stats_by_interval':
-      return {...state, data: action.payload, loading: false}
-    case 'loading':
-      return {...state, loading: true}
-    case 'error':
-      return {...state, error: action.payload, loading: false}
-    default:
-      return state;
-  }
-};
+];

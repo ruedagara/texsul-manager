@@ -1,6 +1,14 @@
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
+const cors = require('cors')({
+  origin: true,
+});
 admin.initializeApp(functions.config().firebase);
+// var serviceAccount = require("/Users/gustavorueda/Downloads/texsul-792d2-firebase-adminsdk-xess5-a16e909c73.json");
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount),
+//   databaseURL: "https://texsul-792d2.firebaseio.com"
+// });
 
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
@@ -15,6 +23,8 @@ const changeSmallStats = async (smallStats, label, db) => {
   const smallStat = snap.data();
   smallStat.id = snap.id;
 };
+
+//Cambia valores de dos cuentas a modificar de acuerdo al tipo de transacción realizado
 const changeAccount = (account1, account2, type, value) => {
   console.log("Change Account", account1);
   switch (type) {
@@ -47,6 +57,7 @@ const changeAccount = (account1, account2, type, value) => {
   return { account1, account2 };
 };
 
+//Obtiene las cuentas a ser modificadas
 const getAccounts = async (id1, id2, db) => {
   const snap1 = await db
     .collection("cuentas")
@@ -63,10 +74,7 @@ const getAccounts = async (id1, id2, db) => {
   return { account1, account2 };
 };
 
-exports.helloWorld = functions.https.onRequest((request, response) => {
-  response.send("Hello from Firebase!");
-});
-
+//Cambia las cuentas asociadas a una transacción cuando esta es creada
 exports.newTransaction = functions.firestore
   .document("transacciones/{transactionID}")
   .onCreate(async (snap, context) => {
@@ -130,76 +138,144 @@ const getResumeValues = transactions => {
   });
   resultados = ventas - gastos;
   saldo = ingresos - egresos;
-  return { venta, gastos, resultados, ingresos, egresos, saldo };
+  return { ventas, gastos, resultados, ingresos, egresos, saldo };
 };
 
-const getSmallStatsData = (resumeValues, dayValues) => {
-  const nullDayArray = [];
-};
-
-//TODO: Obtener suma de datos agrupados por días
-const getValuesByInterval = (transactions, interval) => {
+//Organiza las transacciones por fecha y suma diferentes valores en la determinada fecha
+const getValuesByInterval = transactions => {
   //Organizar transacciones por fecha, de menor a mayo
   const sortedTransactions = transactions.sort(function(x, y) {
     return x.fecha - y.fecha;
   });
-  //Identificar primer dia de la consulta y ultimo día de la consulta
-  const firstDate = sortedTransactions[0].fecha;
-  const lastDate = sortedTransactions[sortedTransactions.length - 1].fecha;
-  //Acumular datos por intervalos si:
-  const groupedTransactionValues = {};
-  sortedTransactions.reduce((value1, value2, index, vector) => {
-    const date1 = new Date(value1.fecha);
-    const date2 = new Date(value2.fecha);
-    if (date1.getDay === date2.getDay) {
-      const sum = value1.valor + value2.valor;
-      //TODO: sumar valor dos solo si valor 1 ya esta sumado
-      groupedTransactionValues[date1.getDay] += sum;
-      return value1.valor + value2.valor;
+  console.log("SORTED", JSON.stringify(sortedTransactions));
+  const dateValueArray = [];
+  sortedTransactions.map(transaction => {
+    const type = transaction.tipo;
+    const date = new Date(transaction.fecha._seconds * 1000);
+    let day = date.getDate();
+    let monthIndex = date.getMonth();
+    const year = date.getFullYear();
+    if (day < 10) {
+      day = `0${day}`;
     }
+    if (monthIndex < 10) {
+      monthIndex = `0${monthIndex}`;
+    }
+    const dateString = `${year}/${monthIndex}/${day}`;
+    const value = transaction.valor;
+    const data = { dateString, value, type };
+    dateValueArray.push(data);
   });
+  console.log("DayValueArray", JSON.stringify(dateValueArray));
+
+  //Agrupar suma de valores por fecha
+  const groups = dateValueArray.reduce((groups, transaction) => {
+    const date = transaction.dateString;
+    if (!groups[date]) {
+      groups[date] = [];
+    }
+    groups[date].push({ value: transaction.value, type: transaction.type });
+    return groups;
+  }, {});
+
+  console.log("GROUPS", JSON.stringify(groups));
+
+  //Se realiza la suma del valor de las transacciones por cada fecha y retorna
+  // [{date,value}, {date,value}]
+  const groupArrays = Object.keys(groups).map(date => {
+    const values = groups[date];
+    let finalValue = 0;
+    let ventas = 0;
+    let gastos = 0;
+    let resultados = 0;
+    let ingresos = 0;
+    let egresos = 0;
+    let saldo = 0;
+    //Sumar por tipo de transacción
+    values.map(value => {
+      // console.log("Value", value);
+      // finalValue += value;
+      switch (value.type) {
+        case "venta":
+          console.log("Venta");
+          ventas += value.value;
+          break;
+        case "ingreso":
+          console.log("Ingreso");
+          ingresos += value.value;
+          break;
+        case "egreso":
+          console.log("Egreso");
+          egresos += value.value;
+          break;
+        case "gasto":
+          console.log("Gasto");
+          gastos += value.value;
+          break;
+        default:
+          break;
+      }
+    });
+    resultados = ventas - gastos;
+    saldo = ingresos - egresos;
+    return {
+      date,
+      values: { ventas, gastos, resultados, ingresos, egresos, saldo }
+    };
+  });
+  return groupArrays;
 };
 
+//Obtiene la información para los smallStats de acuerdo a un rango de fechas determinado
 exports.getCustomSmallStats = functions.https.onRequest(async (req, res) => {
-  //Obtener la fecha inicial y la fecha final de la consulta
-  const startDate = new Date(req.params.startDate);
-  const endDate = new Date(req.params.finalDate);
-  //Buscar en la base de datos aquellas transacciones realizadas en el periodo de tiempo dado
-  const transactions = [];
-  const db = admin.firestore.collection("transacciones");
-  const snap = await db
-    .where("fecha", ">", startDate)
-    .where("fecha", "<", endDate)
-    .get();
-  if (!snap) {
-    res.status(404).send({ error: "No se ha encontrado la base de datos" });
-  }
-  snap.forEach(doc => {
-    const transaction = doc.data();
-    console.log("Transaction Data", transaction);
-    transaction.id = doc.id;
-    transactions.push(transaction);
-  });
-
-  //Obtener valores totales para smallStats
-  const resumeValues = getResumeValues(transactions);
-  console.log("resumeValues", resumeValues);
-  //Ventas: Sumar todos los valores de transacciones de venta
-  //Gastos: Sumar todos los valores de transacciones de gastos
-  //Resultados: Realizar resta entre Ventas y Gastos
-  //Ingresos de Efectivo: Sumar todos los valores de transacciondes de ingresos
-  //Egresos de Efectivo: Sumar todos los valores de transacciones de egresos
-  //Saldo: Realizar resta entre Ingresos de Efectivo y Egresos de Efectivo
-
-  //Realizar sumas por días
-  const interval = "days";
-  const intervalValues = getValuesByInterval(transactions, interval);
-  console.log("dayValues", dayValues);
-
-  //Organizar el JSON teniendo en cuenta el cambio en el datasets y numero de días
-  const finalData = getSmallStatsData(resumeValues, intervalValues);
-  console.log("finalData", finalData);
-
-  //Enviar respuesta
-  res.status(200).send(finalData);
+  //console.log("JSON DE REQT",JSON.stringify(req.body))
+  return cors(req,res, async () => {
+    console.log(JSON.stringify(req.body));
+    const body = req.body;
+    console.log(body);
+    
+    //Obtener la fecha inicial y la fecha final de la consulta
+    const startDate = new Date(body.startDate);
+    const finalDate = new Date(body.finalDate);
+    //console.log(startDate, finalDate);
+  
+    //Buscar en la base de datos aquellas transacciones realizadas en el periodo de tiempo dado
+    const transactions = [];
+    const db = admin.firestore();
+    const snap = await db
+      .collection("transacciones")
+      .where("fecha", ">=", startDate)
+      .where("fecha", "<=", finalDate)
+      .get();
+    if (!snap) {
+      res.status(404).send({ error: "No se ha encontrado la base de datos" });
+    }
+    snap.forEach(doc => {
+      const transaction = doc.data();
+      transaction.id = doc.id;
+      transactions.push(transaction);
+    });
+  
+    //Obtener valores totales para smallStats
+    const resumeValues = getResumeValues(transactions);
+    console.log("resumeValues", resumeValues);
+  
+    //Realizar sumas por días
+    //const interval = "days";
+    const intervalValues = getValuesByInterval(transactions);
+    //Organizar los intervalValues como dos Arrays que representen X y Y
+    const dates = [];
+    const values = [];
+    intervalValues.map(interval => {
+      dates.push(interval.date);
+      values.push(interval.values);
+    });
+    const chartValues = { dates, values };
+    //Enviar respuesta
+    const response = { resumeValues, chartValues };
+    //res.status(200).send(finalData);
+    res.status(200).send(response);
+  })
 });
+
+exports.getDataForBigStats = functions.https.onRequest(async (req, res) => {});
